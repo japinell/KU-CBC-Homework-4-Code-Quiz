@@ -28,12 +28,38 @@ span {
 }
 
 h1 {
+  text-align: center;
   padding: 10px 0px 10px 0px;
   margin: 0px;
 }
 
+h2 {
+  text-align: center;
+  padding: 0px 0px 10px 0px;
+  margin: 0px;
+}
+
+ol {
+  margin: 15px 0px 5px 0px;
+}
+
 li {
   list-style-type: none;
+}
+
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100vw;
+  margin: 0px;
+  vertical-align: auto;
+}
+
+.intro div {
+  text-align: center;
 }
 
 .super-header {
@@ -49,18 +75,18 @@ li {
 
 .high-scores {
   position: absolute;
-  top: 25vh;
+  top: 15vh;
   /* Pin the container to the left-top corner of the main container */
-  left: calc(var(--body-xcenter) - var(--body-xcenter) / 2 - 150px);
+  left: calc(var(--body-xcenter) - var(--body-xcenter) / 2 - 75px);
   /* width: 50vw; */
   width: 20vw;
 }
 
 .timer {
   position: absolute;
-  top: 25vh;
+  top: 15vh;
   /* Pin the container to the right-top corner of the main container */
-  left: calc(var(--body-xcenter) + var(--body-xcenter) / 2);
+  left: calc(var(--body-xcenter) + var(--body-xcenter) / 2 - 75px);
   width: 20vw;
 }
 
@@ -85,14 +111,21 @@ li {
   color: var(--header-btn-bkg-color);
 }
 
+#start-quiz,
 #start,
 #stop,
-#score {
+#score,
+#submit,
+#go-back,
+#clear-score {
   margin-bottom: 10px;
   width: 150px;
 }
 
-.main {
+.intro,
+.main,
+.submit-score,
+.highest-score {
   background-color: var(--main-bkg-color);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   width: 50vw;
@@ -113,6 +146,23 @@ li {
   background-color: var(--header-btn-bkg-color);
   color: var(--header-btn-txt-color);
   opacity: 0.8;
+}
+
+.message {
+  font-size: 20px;
+  font-style: italic;
+  padding: 5px 10px 5px 10px;
+  margin: 2px;
+}
+
+.submit-score span,
+.submit-score div {
+  font-size: 24px;
+  padding: 5px 10px 5px 10px;
+}
+
+.highest-score div {
+  text-align: center;
 }
 
 @media (max-width: 880px) {
