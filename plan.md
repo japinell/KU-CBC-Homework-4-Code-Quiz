@@ -6,7 +6,7 @@
    a. An ordered list for the questions.
    b. An unordered list for the potential answers.
 
-2. Create a quiz object to hold the question, an array to hold the potential answers, and an array to hold the correct answer.
+2. Create a quiz object to hold the question, an array to hold the potential answers, and an string to hold the correct answer.
 
 3. Create an array of quiz (question/answers) objects.
 
