@@ -7,7 +7,6 @@
     <title>JavaScript Fundamentals - Coding Quiz</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
-
   <body>
     <!-- Super-header -->
     <div class="super-header">
@@ -37,16 +36,18 @@
     </div>
     <!-- End of Header -->
     <!-- Introduction -->
-    <div id="intro" class="intro">
+    <div class="intro">
       <h1>Coding Quiz Challenge</h1>
-      <span>
-        Try to answer the following code-related questions within the time 
+      <h3>
+        Try to answer the following code-related questions within the time
         limit. Keep in mind that incorrect answers will penalize your score/time
         by ten seconds.
-      </span>
+      </h3>
+      <!--
       <div>
         <button id="start-quiz" class="button">Start Quiz</button>
       </div>
+      -->
     </div>
     <!-- End of Introduction -->
     <!-- Main -->
@@ -76,7 +77,7 @@
     </main>
     <!-- End of Main -->
     <!-- Submit Score -->
-    <div id="submit-score" class="submit-score">
+    <div class="submitscore">
       <h1>All Done!</h1>
       <span>Your final score is:</span>
       <span id="final-score" class="final-score"> 10 </span>
@@ -88,9 +89,9 @@
     </div>
     <!-- End of Submit Score -->
     <!-- Highest Score -->
-    <div id="highest-score" class="highest-score">
+    <div class="scores">
       <h1>Highest Score:</h1>
-      <h2 id="highest-score">Rigo - 100%</h2>
+      <h2 id="scores">Rigo - 100%</h2>
       <div>
         <button id="go-back" class="button">Go Back</button>
         <button id="clear-score" class="button">Clear Scores</button>
