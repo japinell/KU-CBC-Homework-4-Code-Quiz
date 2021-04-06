@@ -1,6 +1,7 @@
 :root {
   --header-bkg-color: rgba(0, 0, 0, 0.2);
-  --header-btn-bkg-color: rgba(0, 0, 0, 0.8); /* #093145; */
+  --header-btn-bkg-color: rgba(0, 0, 0, 0.8);
+  /* #093145; */
   --header-btn-txt-color: white;
   --main-bkg-color: rgba(0, 0, 0, 0.1);
   --main-btn-bkg-color: rgba(255, 255, 255, 0.9);
