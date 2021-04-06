@@ -69,7 +69,7 @@ li {
   text-align: center;
 }
 
-.super-header {
+.superheader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,7 +80,7 @@ li {
   vertical-align: auto;
 }
 
-.high-scores {
+.highscores {
   position: absolute;
   top: 25vh;
   /* Pin the container to the left-top corner of the main container */
@@ -121,10 +121,11 @@ li {
 #start-quiz,
 #start,
 #stop,
-#score,
+#restart,
+#scores,
 #submit,
-#go-back,
-#clear-score {
+#goback,
+#clearscores {
   margin-bottom: 10px;
   width: 150px;
 }
@@ -162,6 +163,10 @@ li {
   margin: 2px;
 }
 
+.main div {
+  text-align: center;
+}
+
 .submitscore span,
 .submitscore div {
   font-size: 24px;
@@ -177,11 +182,11 @@ li {
     font-size: 24px;
   }
 
-  .super-header {
+  .superheader {
     flex-direction: column;
   }
 
-  .high-scores,
+  .highscores,
   .timer {
     position: relative;
     top: 0vh;

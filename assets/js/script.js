@@ -1,19 +1,22 @@
 // Section elements
-const superHeaderDiv = document.getElementById(".super-header");
+const superHeaderDiv = document.getElementById(".superheader");
 const headerDiv = document.querySelector(".header");
 const introDiv = document.querySelector(".intro");
 const mainDiv = document.querySelector(".main");
 const submitScoreDiv = document.querySelector(".submitscore");
 const scoresDiv = document.querySelector(".scores");
 
-// Submit score elements
 const initialsTxt = document.getElementById("initials");
+const highestScoreTxt = document.getElementById("highestscore");
 
 // Button handlers
 const startBtn = document.getElementById("start");
 const stopBtn = document.getElementById("stop");
-const scoreBtn = document.getElementById("score");
+const restartBtn = document.getElementById("restart");
+const scoresBtn = document.getElementById("scores");
 const submitBtn = document.getElementById("submit");
+const goBackBtn = document.getElementById("goback");
+const clearScoresBtn = document.getElementById("clearscores");
 
 // Timer element
 const timerEl = document.getElementById("countdown");
@@ -28,7 +31,7 @@ const answerEl = document.querySelectorAll(".answer");
 const maxTimer = 3;
 
 // Variables
-var timeLeft = maxTimer;
+var timeLeft;
 var timer;
 
 // Question object
@@ -49,6 +52,7 @@ var quiz = [];
 
 // Initialize timer
 function startTimer() {
+    timeLeft = maxTimer;
   timerEl.textContent = timeLeft;
   timer = setInterval(function () {
     // Decrease timeLeft by 1 second
@@ -58,7 +62,6 @@ function startTimer() {
 
 // Stop timer
 function stopTimer() {
-  startBtn.disabled = false;
   timeLeft = maxTimer;
   timerEl.textContent = timeLeft;
   clearInterval(timer);
@@ -73,27 +76,29 @@ function updateTimeLeft(seconds) {
   } else {
     timerEl.textContent = "0";
     clearInterval(timer);
-    hideSection(mainDiv);
-    showSection(submitScoreDiv);
+    hideElement(mainDiv);
+    showElement(submitScoreDiv);
   }
 }
 
 // Hide section
-function hideSection(section) {
+function hideElement(section) {
   section.style.display = "none";
 }
 
 // Show section
-function showSection(section) {
+function showElement(section) {
   section.style.display = "block";
 }
 
 // Init quiz parameters
 function initParameters() {
-  hideSection(mainDiv);
-  hideSection(submitScoreDiv);
-  hideSection(scoresDiv);
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(introDiv);
   //
+  timeLeft = maxTimer;
   timerEl.textContent = timeLeft;
   //
 }
@@ -101,7 +106,7 @@ function initParameters() {
 // Submit score
 function submitScore() {
   var actualInitials = initialsTxt.value.trim();
-  var actualScore = 65;
+  var actualScore = 75;
   var savedScore;
 
   // Retrive the highest score
@@ -125,22 +130,66 @@ function submitScore() {
   }
 }
 
+// Load highest score
+function loadHighestScore() {
+  var savedScore;
+
+  // Retrive the highest score
+  savedScore = JSON.parse(localStorage.getItem("highestScore"));
+
+  if (savedScore !== null) {
+    // Display it
+    highestScoreTxt.textContent =
+      savedScore.initials + " - " + savedScore.score;
+  } else {
+    highestScoreTxt.textContent = "N/A";
+  }
+}
+
+// Clear highest score
+function clearHighestScore() {
+  localStorage.removeItem("highestScore");
+}
+
 // Event listeners
 startBtn.addEventListener("click", function () {
-  startBtn.disabled = true;
-  hideSection(introDiv);
-  showSection(mainDiv);
+  hideElement(introDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(mainDiv);  
   startTimer();
 });
 
 stopBtn.addEventListener("click", function () {
   stopTimer();
+  //   hideElement(restartBtn);
+});
+
+scoresBtn.addEventListener("click", function () {
+  hideElement(introDiv);
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  loadHighestScore();
+  showElement(scoresDiv);
 });
 
 submitBtn.addEventListener("click", function () {
   submitScore();
-  hideSection(submitScoreDiv);
-  showSection(scoresDiv);
+  hideElement(submitScoreDiv);
+  loadHighestScore();
+  showElement(scoresDiv);
+});
+
+clearScoresBtn.addEventListener("click", function () {
+  clearHighestScore();
+  loadHighestScore();
+});
+
+goBackBtn.addEventListener("click", function () {
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(introDiv);
 });
 
 questionEl.addEventListener("click", function () {

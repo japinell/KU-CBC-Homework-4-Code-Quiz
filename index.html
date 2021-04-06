@@ -9,10 +9,10 @@
   </head>
   <body>
     <!-- Super-header -->
-    <div class="super-header">
+    <div class="superheader">
       <!-- High Scores -->
-      <div class="high-scores">
-        <button id="score" class="button">High Scores</button>
+      <div class="highscores">
+        <button id="scores" class="button">Highest Score</button>
       </div>
       <!-- End of High Scores -->
       <!-- Timer -->
@@ -27,11 +27,6 @@
     <!-- Header -->
     <div class="header">
       <h1>JavaScript Fundamentals</h1>
-      <!-- Buttons -->
-      <div>
-        <button id="start" class="button">Start</button>
-        <button id="stop" class="button">Stop</button>
-      </div>
       <!-- End of Buttons -->
     </div>
     <!-- End of Header -->
@@ -43,11 +38,10 @@
         limit. Keep in mind that incorrect answers will penalize your score/time
         by ten seconds.
       </h3>
-      <!--
+      <!-- Buttons -->
       <div>
-        <button id="start-quiz" class="button">Start Quiz</button>
+        <button id="start" class="button">Start</button>
       </div>
-      -->
     </div>
     <!-- End of Introduction -->
     <!-- Main -->
@@ -73,6 +67,12 @@
         <span id="message" class="message">Correct!</span>
         <!-- End of Message -->
       </ol>
+      <!-- Buttons -->
+      <div>
+        <button id="restart" class="button">Restart</button>
+        <button id="stop" class="button">Stop</button>
+      </div>
+      <!-- End of Buttons -->
       <!-- End of Question -->
     </main>
     <!-- End of Main -->
@@ -91,10 +91,10 @@
     <!-- Highest Score -->
     <div class="scores">
       <h1>Highest Score:</h1>
-      <h2 id="scores">Rigo - 100%</h2>
+      <h2 id="highestscore">N/A</h2>
       <div>
-        <button id="go-back" class="button">Go Back</button>
-        <button id="clear-score" class="button">Clear Scores</button>
+        <button id="goback" class="button">Go Back</button>
+        <button id="clearscores" class="button">Clear Scores</button>
       </div>
     </div>
     <!-- End of Highest Score -->
