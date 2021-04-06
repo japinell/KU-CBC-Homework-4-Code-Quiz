@@ -6,6 +6,7 @@ const mainDiv = document.querySelector(".main");
 const submitScoreDiv = document.querySelector(".submitscore");
 const scoresDiv = document.querySelector(".scores");
 
+const finalScoreEl = document.getElementById("final-score");
 const initialsTxt = document.getElementById("initials");
 const highestScoreTxt = document.getElementById("highestscore");
 
@@ -37,9 +38,13 @@ const REWARD = 10;
 // Variables
 var timeLeft;
 var timer;
+var numberOfCorrectAnswers;
+var numberOfWrongAnswers;
+var actualScore;
 
 // Question object
 var questionObj = {
+    number: "",
     question: "",
     possibleAnswers: [],
     correctAnswer: "",
@@ -58,8 +63,15 @@ var questionNumber = 0;
 
 // Initialize timer
 function startTimer() {
+    //
+    questionNumber = 0;
+    numberOfCorrectAnswers = 0;
+    numberOfWrongAnswers = 0;
+    actualScore = 0;
+    //
     timeLeft = MAX_TIMER;
     timerEl.textContent = timeLeft;
+    //
     loadNextQuestion();
     timer = setInterval(function () {
         // Decrease timeLeft by 1 second
@@ -88,10 +100,12 @@ function updateTimeLeft(seconds) {
 }
 
 // Init quiz
-// Full credit to W3Schools.com (https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS)
+// Questions extracted from W3Schools.com 
+// => https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 function initQuiz() {
     // Question 1
     questionObj = {
+        number: "1",
         question: "Inside which HTML element do we put the JavaScript?",
         possibleAnswers: [
             "<javascript>",
@@ -105,6 +119,7 @@ function initQuiz() {
 
     // Question 2
     questionObj = {
+        number: "2",
         question: "Where is the correct place to insert a JavaScript?",
         possibleAnswers: [
             "The <body> section",
@@ -117,18 +132,20 @@ function initQuiz() {
 
     // Question 3
     questionObj = {
+        number: "3",
         question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
         possibleAnswers: [
             "<script href='xxx.js'>",
             "<script name='xxx.js>",
             "<script src='xxx.js'>",
         ],
-        correctAnswer: "1",
+        correctAnswer: "3",
     };
     quizObj.push(questionObj);
 
     // Question 4
     questionObj = {
+        number: "4",
         question: "The external JavaScript file must contain the <script> tag.",
         possibleAnswers: ["False", "True"],
         correctAnswer: "1",
@@ -137,6 +154,7 @@ function initQuiz() {
 
     // Question 5
     questionObj = {
+        number: "5",
         question: "How do you write 'Hello World' in an alert box?",
         possibleAnswers: [
             "msg('Hello World')",
@@ -150,6 +168,7 @@ function initQuiz() {
 
     // Question 6
     questionObj = {
+        number: "6",
         question: "How do you create a function in JavaScript?",
         possibleAnswers: [
             "function:myFunction()",
@@ -162,6 +181,7 @@ function initQuiz() {
 
     // Question 7
     questionObj = {
+        number: "7",
         question: "How do you call a function named 'myFunction'?",
         possibleAnswers: [
             "call function myFunction()",
@@ -174,6 +194,7 @@ function initQuiz() {
 
     // Question 8
     questionObj = {
+        number: "8",
         question: "How to write an IF statement in JavaScript?",
         possibleAnswers: [
             "if i = 5 then",
@@ -187,6 +208,7 @@ function initQuiz() {
 
     // Question 9
     questionObj = {
+        number: "9",
         question: "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
         possibleAnswers: [
             "if (i <> 5)",
@@ -200,6 +222,7 @@ function initQuiz() {
 
     // Question 10
     questionObj = {
+        number: "10",
         question: "How does a WHILE loop start?",
         possibleAnswers: [
             "while (i <= 10)",
@@ -214,7 +237,7 @@ function initQuiz() {
 }
 
 // Init quiz
-function initQuiz1() {
+function initQuizOld() {
     //
     var possibleAnswers = [];
     var rndAnswer;
@@ -238,9 +261,23 @@ function initQuiz1() {
         quizObj.push(questionObj);
     }
 
-    //   console.log("quiz :>> " + JSON.stringify(quizObj));
-
     isQuizLoaded = true;
+}
+
+// Check answer
+function checkAnswer(element) {
+    //
+    var answerNumber = element.getAttribute("answer-number");
+    var correctAnswer = quizObj[questionNumber - 1].correctAnswer;
+    //
+    if (answerNumber === correctAnswer) {
+        numberOfCorrectAnswers++;
+        return true;
+    } else {
+        numberOfWrongAnswers++;
+        return false;
+    }
+    //    
 }
 
 // Load next question
@@ -250,9 +287,9 @@ function loadNextQuestion() {
     var spanEl;
 
     //
-    questionEl.setAttribute("data-number", questionNumber + 1);
+    questionEl.setAttribute("question-number", quizObj[questionNumber].number);
     questionEl.textContent =
-        questionNumber + 1 + ". " + quizObj[questionNumber].question;
+        quizObj[questionNumber].number + ". " + quizObj[questionNumber].question;
     liEl = document.createElement("li");
     //
     for (var j = 0; j < quizObj[questionNumber].possibleAnswers.length; j++) {
@@ -260,7 +297,7 @@ function loadNextQuestion() {
         btnEl = document.createElement("button");
         //
         btnEl.setAttribute("class", "answer");
-        btnEl.setAttribute("data-number", j + 1);
+        btnEl.setAttribute("answer-number", j + 1);
         btnEl.textContent = quizObj[questionNumber].possibleAnswers[j];
         //
         liEl.appendChild(btnEl);
@@ -278,10 +315,14 @@ function loadNextQuestion() {
     questionNumber++;
 }
 
+// Calculate score
+function calculateScore() {
+    actualScore = numberOfCorrectAnswers / MAX_QUESTIONS * 100;
+}
+
 // Submit score
 function submitScore() {
     var actualInitials = initialsTxt.value.trim();
-    var actualScore = 75;
     var savedScore;
 
     // Retrive the highest score
@@ -396,12 +437,16 @@ questionEl.addEventListener("click", function () {
     var element = event.target;
 
     if (element.matches(".answer")) {
-        if (questionNumber < quizObj.length) {
+        // Check answer
+        checkAnswer(element);
+        if (questionNumber < MAX_QUESTIONS) {
             // Load next question
             loadNextQuestion();
         } else {
             stopTimer();
+            calculateScore();
             hideElement(mainDiv);
+            finalScoreEl.textContent = actualScore;
             showElement(submitScoreDiv);
         }
     }
