@@ -32,8 +32,8 @@ const answerEl = document.querySelectorAll(".answer");
 const MAX_TIMER = 60;
 const MAX_QUESTIONS = 10;
 const MAX_ANSWERS = 5;
-const PENALTY = 15;
-const REWARD = 10;
+const PENALTY = 10;
+const REWARD = 5;
 
 // Variables
 var timeLeft;
@@ -94,8 +94,8 @@ function updateTimeLeft(seconds) {
     } else {
         timerEl.textContent = "0";
         clearInterval(timer);
-        // hideElement(mainDiv);
-        // showElement(submitScoreDiv);
+        hideElement(mainDiv);
+        showElement(submitScoreDiv);
     }
 }
 
@@ -272,9 +272,11 @@ function checkAnswer(element) {
     //
     if (answerNumber === correctAnswer) {
         numberOfCorrectAnswers++;
+        timeLeft += REWARD;
         return true;
     } else {
         numberOfWrongAnswers++;
+        timeLeft -= PENALTY;
         return false;
     }
     //    
