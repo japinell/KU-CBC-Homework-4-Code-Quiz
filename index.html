@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Fundamentals - Coding Quiz</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JavaScript Fundamentals - Coding Quiz</title>
-  <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-
-<body>
-  <!-- Super-header -->
-  <div class="superheader">
-    <!-- High Scores -->
-    <div class="highscores">
-      <button id="scores" class="button">Highest Score</button>
+  <body>
+    <!-- Super-header -->
+    <div class="superheader">
+      <!-- High Scores -->
+      <div class="highscores">
+        <button id="scores" class="button">Highest Score</button>
+      </div>
+      <!-- End of High Scores -->
+      <!-- Timer -->
+      <div class="timer">
+        <span>Time: </span>
+        <span id="countdown" class="countdown"> 0 </span>
+        <span>second(s) left</span>
+      </div>
+      <!-- End of Timer -->
     </div>
-    <!-- End of High Scores -->
-    <!-- Timer -->
-    <div class="timer">
-      <span>Time: </span>
-      <span id="countdown" class="countdown"> 0 </span>
-      <span>second(s) left</span>
+    <!-- End of Super-header -->
+    <!-- Header -->
+    <div class="header">
+      <h1>JavaScript Fundamentals</h1>
+      <!-- End of Buttons -->
     </div>
-    <!-- End of Timer -->
-  </div>
-  <!-- End of Super-header -->
-  <!-- Header -->
-  <div class="header">
-    <h1>JavaScript Fundamentals</h1>
-    <!-- End of Buttons -->
-  </div>
-  <!-- End of Header -->
-  <!-- Introduction -->
-  <div class="intro">
-    <h1>Coding Quiz Challenge</h1>
-    <h3>
-      Try to answer the following code-related questions within the time
-      limit. Keep in mind that incorrect answers will penalize your score/time
-      by ten seconds; likewise, correct answers will reward you with five additional seconds.
-    </h3>
-    <!-- Buttons -->
-    <div>
-      <button id="start" class="button">Start</button>
+    <!-- End of Header -->
+    <!-- Introduction -->
+    <div class="intro">
+      <h1>Coding Quiz Challenge</h1>
+      <h3>
+        Try to answer the following code-related questions within the time
+        limit. Keep in mind that incorrect answers will penalize your score/time
+        by ten seconds; likewise, correct answers will reward you with five
+        additional seconds.
+      </h3>
+      <!-- Buttons -->
+      <div>
+        <button id="start" class="button">Start</button>
+      </div>
     </div>
-  </div>
-  <!-- End of Introduction -->
-  <!-- Main -->
-  <main class="main">
-    <!-- Question -->
-    <ol id="question" class="question" question-number="1">
-      <!-- Created through logic -->
-      <!-- Potential Answers -->
-      <!-- End of Potential Answers -->
-      <!-- Message -->
-      <!-- End of Message -->
-    </ol>
-    <!-- Buttons -->
-    <div>
-      <button id="stop" class="button">Stop</button>
+    <!-- End of Introduction -->
+    <!-- Main -->
+    <main class="main">
+      <!-- Question -->
+      <ol id="question" class="question" question-number="1">
+        <!-- Created through logic -->
+        <!-- Potential Answers -->
+        <!-- End of Potential Answers -->
+        <!-- Message -->
+        <!-- End of Message -->
+      </ol>
+      <!-- Buttons -->
+      <div>
+        <button id="stop" class="button">Stop</button>
+      </div>
+      <!-- End of Buttons -->
+      <!-- End of Question -->
+    </main>
+    <!-- End of Main -->
+    <!-- Submit Score -->
+    <div class="submitscore">
+      <h1>All Done!</h1>
+      <span>Your final score is:</span>
+      <span id="final-score" class="final-score"></span>
+      <div>
+        <label for="initials">Enter name or initials:</label>
+        <input id="initials" type="text" name="initials" />
+        <button id="submit" class="button">Submit</button>
+      </div>
     </div>
-    <!-- End of Buttons -->
-    <!-- End of Question -->
-  </main>
-  <!-- End of Main -->
-  <!-- Submit Score -->
-  <div class="submitscore">
-    <h1>All Done!</h1>
-    <span>Your final score is:</span>
-    <span id="final-score" class="final-score"></span>
-    <div>
-      <label for="initials">Enter name or initials:</label>
-      <input id="initials" type="text" name="initials" />
-      <button id="submit" class="button">Submit</button>
+    <!-- End of Submit Score -->
+    <!-- Highest Score -->
+    <div class="scores">
+      <h1>Highest Score:</h1>
+      <h2 id="highestscore">N/A</h2>
+      <div>
+        <button id="goback" class="button">Go Back</button>
+        <button id="clearscores" class="button">Clear Scores</button>
+      </div>
     </div>
-  </div>
-  <!-- End of Submit Score -->
-  <!-- Highest Score -->
-  <div class="scores">
-    <h1>Highest Score:</h1>
-    <h2 id="highestscore">N/A</h2>
-    <div>
-      <button id="goback" class="button">Go Back</button>
-      <button id="clearscores" class="button">Clear Scores</button>
-    </div>
-  </div>
-  <!-- End of Highest Score -->
-  <script src="./assets/js/script.js"></script>
-</body>
-
+    <!-- End of Highest Score -->
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>

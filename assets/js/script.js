@@ -21,8 +21,8 @@ const clearScoresBtn = document.getElementById("clearscores");
 // Timer element
 const timerEl = document.getElementById("countdown");
 
-// Question element
-const questionEl = document.getElementById("question");
+// Question/answer element
+const questionAnswerEl = document.getElementById("question");
 
 // Answer element
 const answerEl = document.querySelectorAll(".answer");
@@ -94,10 +94,12 @@ function updateTimeLeft(seconds) {
   if (timeLeft > 0) {
     timerEl.textContent = timeLeft;
   } else {
-    timerEl.textContent = "0";
+    timeLeft = 0;
+    timerEl.textContent = timeLeft;
     clearInterval(timer);
-    hideElement(mainDiv);
-    showElement(submitScoreDiv);
+
+    // All done
+    processAllDone();
   }
 }
 
@@ -271,11 +273,14 @@ function checkAnswer(element) {
   //
   if (answerNumber === correctAnswer) {
     numberOfCorrectAnswers++;
-    timeLeft += REWARD;
+    // Increase time left
+    updateTimeLeft(REWARD);
     return true;
   } else {
     numberOfWrongAnswers++;
-    timeLeft -= PENALTY;
+    // Decrease time left
+    updateTimeLeft(-PENALTY);
+
     return false;
   }
   //
@@ -291,8 +296,11 @@ function loadNextQuestion() {
   var liEl;
   var btnEl;
   //
-  questionEl.setAttribute("question-number", quizObj[questionNumber].number);
-  questionEl.textContent =
+  questionAnswerEl.setAttribute(
+    "question-number",
+    quizObj[questionNumber].number
+  );
+  questionAnswerEl.textContent =
     quizObj[questionNumber].number + ". " + quizObj[questionNumber].question;
   liEl = document.createElement("li");
   //
@@ -313,8 +321,8 @@ function loadNextQuestion() {
   messageEl.setAttribute("class", "message");
   messageEl.textContent = "";
 
-  questionEl.appendChild(liEl);
-  questionEl.appendChild(messageEl);
+  questionAnswerEl.appendChild(liEl);
+  questionAnswerEl.appendChild(messageEl);
 
   questionNumber++;
 }
@@ -396,48 +404,65 @@ function initParameters() {
   }
 }
 
-// Event listeners
-startBtn.addEventListener("click", function () {
+// All done
+function processAllDone() {
+  // All done
+  stopTimer();
+  calculateScore();
+  hideElement(mainDiv);
+  finalScoreEl.textContent =
+    actualScore + "% (" + numberOfCorrectAnswers + "/" + MAX_QUESTIONS + ")";
+  showElement(submitScoreDiv);
+}
+
+// Process startBtn logic
+function processStartBtn() {
   hideElement(introDiv);
   hideElement(submitScoreDiv);
   hideElement(scoresDiv);
   showElement(mainDiv);
   startTimer();
-});
+}
 
-stopBtn.addEventListener("click", function () {
+// Process stopBtn logic
+function processStopBtn() {
   stopTimer();
   initParameters();
-});
+}
 
-scoresBtn.addEventListener("click", function () {
+// Process scoresBtn logic
+function processScoresBtn() {
   hideElement(introDiv);
   hideElement(mainDiv);
   hideElement(submitScoreDiv);
   loadHighestScore();
   showElement(scoresDiv);
-});
+}
 
-submitBtn.addEventListener("click", function () {
+// Process submitBtn logic
+function processSubmitBtn() {
   submitScore();
   hideElement(submitScoreDiv);
   loadHighestScore();
   showElement(scoresDiv);
-});
+}
 
-clearScoresBtn.addEventListener("click", function () {
+// Process clearScoresBtn logic
+function processClearScoresBtn() {
   clearHighestScore();
   loadHighestScore();
-});
+}
 
-goBackBtn.addEventListener("click", function () {
+// Process goBackBtn logic
+function processGoBackBtn() {
   hideElement(mainDiv);
   hideElement(submitScoreDiv);
   hideElement(scoresDiv);
   showElement(introDiv);
-});
+}
 
-questionEl.addEventListener("click", function () {
+// Process question/answer logic
+function processQuestionAnswer() {
   // Check that the clicked element is an answer
   var element = event.target;
 
@@ -460,21 +485,20 @@ questionEl.addEventListener("click", function () {
         loadNextQuestion();
       } else {
         // All done
-        stopTimer();
-        calculateScore();
-        hideElement(mainDiv);
-        finalScoreEl.textContent =
-          actualScore +
-          "% (" +
-          numberOfCorrectAnswers +
-          "/" +
-          MAX_QUESTIONS +
-          ")";
-        showElement(submitScoreDiv);
+        processAllDone();
       }
     }, 500);
   }
-});
+}
+
+// Event listeners
+startBtn.addEventListener("click", processStartBtn);
+stopBtn.addEventListener("click", processStopBtn);
+scoresBtn.addEventListener("click", processScoresBtn);
+submitBtn.addEventListener("click", processSubmitBtn);
+clearScoresBtn.addEventListener("click", clearScoresBtn);
+goBackBtn.addEventListener("click", processGoBackBtn);
+questionAnswerEl.addEventListener("click", processQuestionAnswer);
 
 // Init parameters
 initParameters();
