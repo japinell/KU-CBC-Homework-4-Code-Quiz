@@ -358,7 +358,6 @@ function submitScore() {
   }
 
   initialsTxt.value = "";
-
 }
 
 // Load highest score
@@ -444,10 +443,13 @@ function processScoresBtn() {
 
 // Process submitBtn logic
 function processSubmitBtn() {
-  submitScore();
-  hideElement(submitScoreDiv);
-  loadHighestScore();
-  showElement(scoresDiv);
+  // Submit only if initials/name have been provided
+  if (initialsTxt.value.trim()) {
+    submitScore();
+    hideElement(submitScoreDiv);
+    loadHighestScore();
+    showElement(scoresDiv);
+  }
 }
 
 // Process clearScoresBtn logic
