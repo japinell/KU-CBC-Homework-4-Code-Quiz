@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap'); */
+
 :root {
   --header-bkg-color: rgba(0, 0, 0, 0.2);
   --header-btn-bkg-color: rgba(0, 0, 0, 0.8);
-  /* #093145; */
   --header-btn-txt-color: white;
   --main-bkg-color: rgba(0, 0, 0, 0.1);
   --main-btn-bkg-color: rgba(255, 255, 255, 0.9);
@@ -14,6 +17,8 @@
 }
 
 body {
+  /* font-family: 'IBM Plex Mono', monospace; */
+  /* font-family: 'Space Mono', monospace; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,6 +58,12 @@ ol {
 
 li {
   list-style-type: none;
+}
+
+#javascript {
+  /* font-family: 'Dancing Script', cursive; */
+  font-family: 'Architects Daughter', cursive;
+  font-size: 32px;
 }
 
 .intro {
