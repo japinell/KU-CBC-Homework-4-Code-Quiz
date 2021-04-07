@@ -356,6 +356,9 @@ function submitScore() {
     // Save the actual score
     localStorage.setItem("highestScore", JSON.stringify(scoreObj));
   }
+
+  initialsTxt.value = "";
+
 }
 
 // Load highest score
@@ -496,7 +499,7 @@ startBtn.addEventListener("click", processStartBtn);
 stopBtn.addEventListener("click", processStopBtn);
 scoresBtn.addEventListener("click", processScoresBtn);
 submitBtn.addEventListener("click", processSubmitBtn);
-clearScoresBtn.addEventListener("click", clearScoresBtn);
+clearScoresBtn.addEventListener("click", processClearScoresBtn);
 goBackBtn.addEventListener("click", processGoBackBtn);
 questionAnswerEl.addEventListener("click", processQuestionAnswer);
 
