@@ -13,7 +13,6 @@ const highestScoreTxt = document.getElementById("highestscore");
 // Button handlers
 const startBtn = document.getElementById("start");
 const stopBtn = document.getElementById("stop");
-const restartBtn = document.getElementById("restart");
 const scoresBtn = document.getElementById("scores");
 const submitBtn = document.getElementById("submit");
 const goBackBtn = document.getElementById("goback");
@@ -27,6 +26,9 @@ const questionEl = document.getElementById("question");
 
 // Answer element
 const answerEl = document.querySelectorAll(".answer");
+
+// Message element
+var messageEl;
 
 //
 const MAX_TIMER = 60;
@@ -44,16 +46,16 @@ var actualScore;
 
 // Question object
 var questionObj = {
-    number: "",
-    question: "",
-    possibleAnswers: [],
-    correctAnswer: "",
+  number: "",
+  question: "",
+  possibleAnswers: [],
+  correctAnswer: "",
 };
 
 // Score object
 var scoreObj = {
-    initials: "",
-    score: "",
+  initials: "",
+  score: "",
 };
 
 // Quiz
@@ -63,395 +65,415 @@ var questionNumber = 0;
 
 // Initialize timer
 function startTimer() {
-    //
-    questionNumber = 0;
-    numberOfCorrectAnswers = 0;
-    numberOfWrongAnswers = 0;
-    actualScore = 0;
-    //
-    timeLeft = MAX_TIMER;
-    timerEl.textContent = timeLeft;
-    //
-    loadNextQuestion();
-    timer = setInterval(function () {
-        // Decrease timeLeft by 1 second
-        updateTimeLeft(-1);
-    }, 1000);
+  //
+  questionNumber = 0;
+  numberOfCorrectAnswers = 0;
+  numberOfWrongAnswers = 0;
+  actualScore = 0;
+  //
+  timeLeft = MAX_TIMER;
+  timerEl.textContent = timeLeft;
+  //
+  loadNextQuestion();
+  timer = setInterval(function () {
+    // Decrease timeLeft by 1 second
+    updateTimeLeft(-1);
+  }, 1000);
 }
 
 // Stop timer
 function stopTimer() {
-    timerEl.textContent = timeLeft;
-    clearInterval(timer);
+  timerEl.textContent = timeLeft;
+  clearInterval(timer);
 }
 
 // Update time left
 function updateTimeLeft(seconds) {
-    timeLeft = timeLeft + seconds;
+  timeLeft = timeLeft + seconds;
 
-    if (timeLeft > 0) {
-        timerEl.textContent = timeLeft;
-    } else {
-        timerEl.textContent = "0";
-        clearInterval(timer);
-        hideElement(mainDiv);
-        showElement(submitScoreDiv);
-    }
+  if (timeLeft > 0) {
+    timerEl.textContent = timeLeft;
+  } else {
+    timerEl.textContent = "0";
+    clearInterval(timer);
+    hideElement(mainDiv);
+    showElement(submitScoreDiv);
+  }
 }
 
 // Init quiz
-// Questions extracted from W3Schools.com 
+// Questions extracted from W3Schools.com
 // => https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 function initQuiz() {
-    // Question 1
-    questionObj = {
-        number: "1",
-        question: "Inside which HTML element do we put the JavaScript?",
-        possibleAnswers: [
-            "<javascript>",
-            "<script>",
-            "<scripting>",
-            "<js>",
-        ],
-        correctAnswer: "2",
-    };
-    quizObj.push(questionObj);
+  // Question 1
+  questionObj = {
+    number: "1",
+    question: "Inside which HTML element do we put the JavaScript?",
+    possibleAnswers: ["<javascript>", "<script>", "<scripting>", "<js>"],
+    correctAnswer: "2",
+  };
+  quizObj.push(questionObj);
 
-    // Question 2
-    questionObj = {
-        number: "2",
-        question: "Where is the correct place to insert a JavaScript?",
-        possibleAnswers: [
-            "The <body> section",
-            "Both the <head> section and the <body> section are correct",
-            "The <head> section",
-        ],
-        correctAnswer: "2",
-    };
-    quizObj.push(questionObj);
+  // Question 2
+  questionObj = {
+    number: "2",
+    question: "Where is the correct place to insert a JavaScript?",
+    possibleAnswers: [
+      "The <body> section",
+      "Both the <head> section and the <body> section are correct",
+      "The <head> section",
+    ],
+    correctAnswer: "2",
+  };
+  quizObj.push(questionObj);
 
-    // Question 3
-    questionObj = {
-        number: "3",
-        question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
-        possibleAnswers: [
-            "<script href='xxx.js'>",
-            "<script name='xxx.js>",
-            "<script src='xxx.js'>",
-        ],
-        correctAnswer: "3",
-    };
-    quizObj.push(questionObj);
+  // Question 3
+  questionObj = {
+    number: "3",
+    question:
+      "What is the correct syntax for referring to an external script called 'xxx.js'?",
+    possibleAnswers: [
+      "<script href='xxx.js'>",
+      "<script name='xxx.js>",
+      "<script src='xxx.js'>",
+    ],
+    correctAnswer: "3",
+  };
+  quizObj.push(questionObj);
 
-    // Question 4
-    questionObj = {
-        number: "4",
-        question: "The external JavaScript file must contain the <script> tag.",
-        possibleAnswers: ["False", "True"],
-        correctAnswer: "1",
-    };
-    quizObj.push(questionObj);
+  // Question 4
+  questionObj = {
+    number: "4",
+    question: "The external JavaScript file must contain the <script> tag.",
+    possibleAnswers: ["False", "True"],
+    correctAnswer: "1",
+  };
+  quizObj.push(questionObj);
 
-    // Question 5
-    questionObj = {
-        number: "5",
-        question: "How do you write 'Hello World' in an alert box?",
-        possibleAnswers: [
-            "msg('Hello World')",
-            "msgBox('Hello World')",
-            "alert('Hello World')",
-            "alertBox('Hello World')",
-        ],
-        correctAnswer: "3",
-    };
-    quizObj.push(questionObj);
+  // Question 5
+  questionObj = {
+    number: "5",
+    question: "How do you write 'Hello World' in an alert box?",
+    possibleAnswers: [
+      "msg('Hello World')",
+      "msgBox('Hello World')",
+      "alert('Hello World')",
+      "alertBox('Hello World')",
+    ],
+    correctAnswer: "3",
+  };
+  quizObj.push(questionObj);
 
-    // Question 6
-    questionObj = {
-        number: "6",
-        question: "How do you create a function in JavaScript?",
-        possibleAnswers: [
-            "function:myFunction()",
-            "function myFunction()",
-            "function = myFunction()",
-        ],
-        correctAnswer: "2",
-    };
-    quizObj.push(questionObj);
+  // Question 6
+  questionObj = {
+    number: "6",
+    question: "How do you create a function in JavaScript?",
+    possibleAnswers: [
+      "function:myFunction()",
+      "function myFunction()",
+      "function = myFunction()",
+    ],
+    correctAnswer: "2",
+  };
+  quizObj.push(questionObj);
 
-    // Question 7
-    questionObj = {
-        number: "7",
-        question: "How do you call a function named 'myFunction'?",
-        possibleAnswers: [
-            "call function myFunction()",
-            "call myFunction()",
-            "myFunction()",
-        ],
-        correctAnswer: "3",
-    };
-    quizObj.push(questionObj);
+  // Question 7
+  questionObj = {
+    number: "7",
+    question: "How do you call a function named 'myFunction'?",
+    possibleAnswers: [
+      "call function myFunction()",
+      "call myFunction()",
+      "myFunction()",
+    ],
+    correctAnswer: "3",
+  };
+  quizObj.push(questionObj);
 
-    // Question 8
-    questionObj = {
-        number: "8",
-        question: "How to write an IF statement in JavaScript?",
-        possibleAnswers: [
-            "if i = 5 then",
-            "if (i == 5)",
-            "if i == 5 then",
-            "if i = 5",
-        ],
-        correctAnswer: "2",
-    };
-    quizObj.push(questionObj);
+  // Question 8
+  questionObj = {
+    number: "8",
+    question: "How to write an IF statement in JavaScript?",
+    possibleAnswers: [
+      "if i = 5 then",
+      "if (i == 5)",
+      "if i == 5 then",
+      "if i = 5",
+    ],
+    correctAnswer: "2",
+  };
+  quizObj.push(questionObj);
 
-    // Question 9
-    questionObj = {
-        number: "9",
-        question: "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
-        possibleAnswers: [
-            "if (i <> 5)",
-            "if (i != 5)",
-            "if i <> 5",
-            "if i =! 5 then",
-        ],
-        correctAnswer: "2",
-    };
-    quizObj.push(questionObj);
+  // Question 9
+  questionObj = {
+    number: "9",
+    question:
+      "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
+    possibleAnswers: [
+      "if (i <> 5)",
+      "if (i != 5)",
+      "if i <> 5",
+      "if i =! 5 then",
+    ],
+    correctAnswer: "2",
+  };
+  quizObj.push(questionObj);
 
-    // Question 10
-    questionObj = {
-        number: "10",
-        question: "How does a WHILE loop start?",
-        possibleAnswers: [
-            "while (i <= 10)",
-            "while i =1 to 10",
-            "while (i <= 10; i++",
-        ],
-        correctAnswer: "1",
-    };
-    quizObj.push(questionObj);
+  // Question 10
+  questionObj = {
+    number: "10",
+    question: "How does a WHILE loop start?",
+    possibleAnswers: [
+      "while (i <= 10)",
+      "while i =1 to 10",
+      "while (i <= 10; i++",
+    ],
+    correctAnswer: "1",
+  };
+  quizObj.push(questionObj);
 
-    isQuizLoaded = true;
+  isQuizLoaded = true;
 }
 
 // Init quiz
 function initQuizOld() {
+  //
+  var possibleAnswers = [];
+  var rndAnswer;
+  //
+  for (var i = 0; i < MAX_QUESTIONS; i++) {
     //
-    var possibleAnswers = [];
-    var rndAnswer;
-    //
-    for (var i = 0; i < MAX_QUESTIONS; i++) {
-        //
-        questionObj.question = "";
-        questionObj.possibleAnswers = [];
-        questionObj.correctAnswer = "";
+    questionObj.question = "";
+    questionObj.possibleAnswers = [];
+    questionObj.correctAnswer = "";
 
-        questionObj.question = "Question " + (i + 1);
+    questionObj.question = "Question " + (i + 1);
 
-        for (var j = 0; j < MAX_ANSWERS; j++) {
-            questionObj.possibleAnswers[j] =
-                "Answer [" + (i + 1) + "," + (j + 1) + "]";
-        }
-
-        rndAnswer = Math.floor(Math.random() * 5);
-        questionObj.correctAnswer = rndAnswer;
-
-        quizObj.push(questionObj);
+    for (var j = 0; j < MAX_ANSWERS; j++) {
+      questionObj.possibleAnswers[j] =
+        "Answer [" + (i + 1) + "," + (j + 1) + "]";
     }
 
-    isQuizLoaded = true;
+    rndAnswer = Math.floor(Math.random() * 5);
+    questionObj.correctAnswer = rndAnswer;
+
+    quizObj.push(questionObj);
+  }
+
+  isQuizLoaded = true;
 }
 
 // Check answer
 function checkAnswer(element) {
-    //
-    var answerNumber = element.getAttribute("answer-number");
-    var correctAnswer = quizObj[questionNumber - 1].correctAnswer;
-    //
-    if (answerNumber === correctAnswer) {
-        numberOfCorrectAnswers++;
-        timeLeft += REWARD;
-        return true;
-    } else {
-        numberOfWrongAnswers++;
-        timeLeft -= PENALTY;
-        return false;
-    }
-    //    
+  //
+  var answerNumber = element.getAttribute("answer-number");
+  var correctAnswer = quizObj[questionNumber - 1].correctAnswer;
+  //
+  if (answerNumber === correctAnswer) {
+    numberOfCorrectAnswers++;
+    timeLeft += REWARD;
+    return true;
+  } else {
+    numberOfWrongAnswers++;
+    timeLeft -= PENALTY;
+    return false;
+  }
+  //
+}
+
+// Shows correct/wrong message
+function showMessage(message) {
+  messageEl.textContent = message;
 }
 
 // Load next question
 function loadNextQuestion() {
-    var liEl;
-    var btnEl;
-    var spanEl;
-
+  var liEl;
+  var btnEl;
+  //
+  questionEl.setAttribute("question-number", quizObj[questionNumber].number);
+  questionEl.textContent =
+    quizObj[questionNumber].number + ". " + quizObj[questionNumber].question;
+  liEl = document.createElement("li");
+  //
+  for (var j = 0; j < quizObj[questionNumber].possibleAnswers.length; j++) {
     //
-    questionEl.setAttribute("question-number", quizObj[questionNumber].number);
-    questionEl.textContent =
-        quizObj[questionNumber].number + ". " + quizObj[questionNumber].question;
-    liEl = document.createElement("li");
+    btnEl = document.createElement("button");
     //
-    for (var j = 0; j < quizObj[questionNumber].possibleAnswers.length; j++) {
-        //
-        btnEl = document.createElement("button");
-        //
-        btnEl.setAttribute("class", "answer");
-        btnEl.setAttribute("answer-number", j + 1);
-        btnEl.textContent = quizObj[questionNumber].possibleAnswers[j];
-        //
-        liEl.appendChild(btnEl);
-    }
-
+    btnEl.setAttribute("class", "answer");
+    btnEl.setAttribute("answer-number", j + 1);
+    btnEl.textContent = quizObj[questionNumber].possibleAnswers[j];
     //
-    spanEl = document.createElement("span");
-    spanEl.setAttribute("id", "message");
-    spanEl.setAttribute("class", "message");
-    spanEl.textContent = "";
+    liEl.appendChild(btnEl);
+  }
 
-    questionEl.appendChild(liEl);
-    questionEl.appendChild(spanEl);
+  //
+  messageEl = document.createElement("span");
+  messageEl.setAttribute("id", "message");
+  messageEl.setAttribute("class", "message");
+  messageEl.textContent = "";
 
-    questionNumber++;
+  questionEl.appendChild(liEl);
+  questionEl.appendChild(messageEl);
+
+  questionNumber++;
 }
 
 // Calculate score
 function calculateScore() {
-    actualScore = numberOfCorrectAnswers / MAX_QUESTIONS * 100;
+  actualScore = (numberOfCorrectAnswers / MAX_QUESTIONS) * 100;
 }
 
 // Submit score
 function submitScore() {
-    var actualInitials = initialsTxt.value.trim();
-    var savedScore;
+  var actualInitials = initialsTxt.value.trim();
+  var savedScore;
 
-    // Retrive the highest score
-    savedScore = JSON.parse(localStorage.getItem("highestScore"));
+  // Retrive the highest score
+  savedScore = JSON.parse(localStorage.getItem("highestScore"));
 
-    if (savedScore !== null) {
-        // Compare the highest score to the actual one
-        if (savedScore.score < actualScore) {
-            scoreObj.initials = actualInitials;
-            scoreObj.score = actualScore;
+  if (savedScore !== null) {
+    // Compare the highest score to the actual one
+    if (savedScore.score < actualScore) {
+      scoreObj.initials = actualInitials;
+      scoreObj.score = actualScore;
 
-            // Save the actual score
-            localStorage.setItem("highestScore", JSON.stringify(scoreObj));
-        }
-    } else {
-        scoreObj.initials = actualInitials;
-        scoreObj.score = actualScore;
-
-        // Save the actual score
-        localStorage.setItem("highestScore", JSON.stringify(scoreObj));
+      // Save the actual score
+      localStorage.setItem("highestScore", JSON.stringify(scoreObj));
     }
+  } else {
+    scoreObj.initials = actualInitials;
+    scoreObj.score = actualScore;
+
+    // Save the actual score
+    localStorage.setItem("highestScore", JSON.stringify(scoreObj));
+  }
 }
 
 // Load highest score
 function loadHighestScore() {
-    var savedScore;
+  var savedScore;
 
-    // Retrive the highest score
-    savedScore = JSON.parse(localStorage.getItem("highestScore"));
+  // Retrive the highest score
+  savedScore = JSON.parse(localStorage.getItem("highestScore"));
 
-    if (savedScore !== null) {
-        // Display it
-        highestScoreTxt.textContent =
-            savedScore.initials + " - " + savedScore.score;
-    } else {
-        highestScoreTxt.textContent = "N/A";
-    }
+  if (savedScore !== null) {
+    // Display it
+    highestScoreTxt.textContent =
+      savedScore.initials + ": " + savedScore.score + "%";
+  } else {
+    highestScoreTxt.textContent = "N/A";
+  }
 }
 
 // Clear highest score
 function clearHighestScore() {
-    localStorage.removeItem("highestScore");
+  localStorage.removeItem("highestScore");
 }
 
 // Hide section
 function hideElement(section) {
-    section.style.display = "none";
+  section.style.display = "none";
 }
 
 // Show section
 function showElement(section) {
-    section.style.display = "block";
+  section.style.display = "block";
 }
 
 // Init quiz parameters
 function initParameters() {
-    hideElement(mainDiv);
-    hideElement(submitScoreDiv);
-    hideElement(scoresDiv);
-    showElement(introDiv);
-    //
-    timeLeft = MAX_TIMER;
-    timerEl.textContent = timeLeft;
-    //
-    if (!isQuizLoaded) {
-        initQuiz();
-    }
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(introDiv);
+  //
+  timeLeft = MAX_TIMER;
+  timerEl.textContent = timeLeft;
+  //
+  if (!isQuizLoaded) {
+    initQuiz();
+  }
 }
 
 // Event listeners
 startBtn.addEventListener("click", function () {
-    hideElement(introDiv);
-    hideElement(submitScoreDiv);
-    hideElement(scoresDiv);
-    showElement(mainDiv);
-    startTimer();
+  hideElement(introDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(mainDiv);
+  startTimer();
 });
 
 stopBtn.addEventListener("click", function () {
-    stopTimer();
+  stopTimer();
+  initParameters();
 });
 
 scoresBtn.addEventListener("click", function () {
-    hideElement(introDiv);
-    hideElement(mainDiv);
-    hideElement(submitScoreDiv);
-    loadHighestScore();
-    showElement(scoresDiv);
+  hideElement(introDiv);
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  loadHighestScore();
+  showElement(scoresDiv);
 });
 
 submitBtn.addEventListener("click", function () {
-    submitScore();
-    hideElement(submitScoreDiv);
-    loadHighestScore();
-    showElement(scoresDiv);
+  submitScore();
+  hideElement(submitScoreDiv);
+  loadHighestScore();
+  showElement(scoresDiv);
 });
 
 clearScoresBtn.addEventListener("click", function () {
-    clearHighestScore();
-    loadHighestScore();
+  clearHighestScore();
+  loadHighestScore();
 });
 
 goBackBtn.addEventListener("click", function () {
-    hideElement(mainDiv);
-    hideElement(submitScoreDiv);
-    hideElement(scoresDiv);
-    showElement(introDiv);
+  hideElement(mainDiv);
+  hideElement(submitScoreDiv);
+  hideElement(scoresDiv);
+  showElement(introDiv);
 });
 
 questionEl.addEventListener("click", function () {
-    // Check that the clicked element is an answer
-    var element = event.target;
+  // Check that the clicked element is an answer
+  var element = event.target;
 
-    if (element.matches(".answer")) {
-        // Check answer
-        checkAnswer(element);
-        if (questionNumber < MAX_QUESTIONS) {
-            // Load next question
-            loadNextQuestion();
-        } else {
-            stopTimer();
-            calculateScore();
-            hideElement(mainDiv);
-            finalScoreEl.textContent = actualScore;
-            showElement(submitScoreDiv);
-        }
+  if (element.matches(".answer")) {
+    // Check answer
+    if (checkAnswer(element)) {
+      showMessage("Correct!");
+      messageEl.setAttribute("style", "color: green;");
+    } else {
+      showMessage("Wrong!");
+      messageEl.setAttribute("style", "color: red;");
     }
+
+    // Wait 0.5 seconds before executing the next block of code
+    // giving time to the user to read the correct/wrong message
+    setTimeout(function () {
+      //
+      if (questionNumber < MAX_QUESTIONS) {
+        // Load next question
+        loadNextQuestion();
+      } else {
+        // All done
+        stopTimer();
+        calculateScore();
+        hideElement(mainDiv);
+        finalScoreEl.textContent =
+          actualScore +
+          "% (" +
+          numberOfCorrectAnswers +
+          "/" +
+          MAX_QUESTIONS +
+          ")";
+        showElement(submitScoreDiv);
+      }
+    }, 500);
+  }
 });
 
 // Init parameters
