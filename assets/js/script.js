@@ -22,7 +22,7 @@ const clearScoresBtn = document.getElementById("clearscores");
 const timerEl = document.getElementById("countdown");
 
 // Question/answer element
-const questionAnswerEl = document.getElementById("question");
+const answerSelectionEl = document.getElementById("question");
 
 // Answer element
 const answerEl = document.querySelectorAll(".answer");
@@ -64,7 +64,7 @@ var isQuizLoaded = false;
 var questionNumber = 0;
 
 // Initialize timer
-function startTimer() {
+function StartTimer() {
   //
   questionNumber = 0;
   numberOfCorrectAnswers = 0;
@@ -74,21 +74,21 @@ function startTimer() {
   timeLeft = MAX_TIMER;
   timerEl.textContent = timeLeft;
   //
-  loadNextQuestion();
+  LoadNextQuestion();
   timer = setInterval(function () {
     // Decrease timeLeft by 1 second
-    updateTimeLeft(-1);
+    UpdateTimeLeft(-1);
   }, 1000);
 }
 
 // Stop timer
-function stopTimer() {
+function StopTimer() {
   timerEl.textContent = timeLeft;
   clearInterval(timer);
 }
 
 // Update time left
-function updateTimeLeft(seconds) {
+function UpdateTimeLeft(seconds) {
   timeLeft = timeLeft + seconds;
 
   if (timeLeft > 0) {
@@ -99,14 +99,14 @@ function updateTimeLeft(seconds) {
     clearInterval(timer);
 
     // All done
-    processAllDone();
+    ProcessAllDone();
   }
 }
 
 // Init quiz
 // Questions extracted from W3Schools.com
 // => https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
-function initQuiz() {
+function InitalizeQuiz() {
   // Question 1
   questionObj = {
     number: "1",
@@ -238,7 +238,7 @@ function initQuiz() {
 }
 
 // Init quiz
-function initQuizOld() {
+function InitalizeQuizOld() {
   //
   var possibleAnswers = [];
   var rndAnswer;
@@ -265,8 +265,8 @@ function initQuizOld() {
   isQuizLoaded = true;
 }
 
-// Check answer
-function checkAnswer(element) {
+// Compares the selected answer with the correct answer stored in quizObj
+function CheckAnswer(element) {
   //
   var answerNumber = element.getAttribute("answer-number");
   var correctAnswer = quizObj[questionNumber - 1].correctAnswer;
@@ -274,33 +274,33 @@ function checkAnswer(element) {
   if (answerNumber === correctAnswer) {
     numberOfCorrectAnswers++;
     // Increase time left
-    updateTimeLeft(REWARD);
+    UpdateTimeLeft(REWARD);
     return true;
   } else {
     numberOfWrongAnswers++;
     // Decrease time left
-    updateTimeLeft(-PENALTY);
+    UpdateTimeLeft(-PENALTY);
 
     return false;
   }
   //
 }
 
-// Shows correct/wrong message
-function showMessage(message) {
+// Displays correct/wrong message
+function ShowMessage(message) {
   messageEl.textContent = message;
 }
 
 // Load next question
-function loadNextQuestion() {
+function LoadNextQuestion() {
   var liEl;
   var btnEl;
   //
-  questionAnswerEl.setAttribute(
+  answerSelectionEl.setAttribute(
     "question-number",
     quizObj[questionNumber].number
   );
-  questionAnswerEl.textContent =
+  answerSelectionEl.textContent =
     quizObj[questionNumber].number + ". " + quizObj[questionNumber].question;
   liEl = document.createElement("li");
   //
@@ -321,19 +321,19 @@ function loadNextQuestion() {
   messageEl.setAttribute("class", "message");
   messageEl.textContent = "";
 
-  questionAnswerEl.appendChild(liEl);
-  questionAnswerEl.appendChild(messageEl);
+  answerSelectionEl.appendChild(liEl);
+  answerSelectionEl.appendChild(messageEl);
 
   questionNumber++;
 }
 
 // Calculate score
-function calculateScore() {
+function CalculateScore() {
   actualScore = (numberOfCorrectAnswers / MAX_QUESTIONS) * 100;
 }
 
-// Submit score
-function submitScore() {
+// Compares actual with the saved score and stores the highest one
+function SubmitScore() {
   var actualInitials = initialsTxt.value.trim();
   var savedScore;
 
@@ -360,8 +360,8 @@ function submitScore() {
   initialsTxt.value = "";
 }
 
-// Load highest score
-function loadHighestScore() {
+// Load highest score from file
+function LoadHighestScore() {
   var savedScore;
 
   // Retrive the highest score
@@ -376,108 +376,108 @@ function loadHighestScore() {
   }
 }
 
-// Clear highest score
-function clearHighestScore() {
+// Clear highest score from file
+function ClearHighestScore() {
   localStorage.removeItem("highestScore");
 }
 
-// Hide section
-function hideElement(section) {
-  section.style.display = "none";
+// Hide element
+function HideElement(element) {
+  element.style.display = "none";
 }
 
-// Show section
-function showElement(section) {
-  section.style.display = "block";
+// Show element
+function ShowElement(element) {
+  element.style.display = "block";
 }
 
 // Init quiz parameters
-function initParameters() {
-  hideElement(mainDiv);
-  hideElement(submitScoreDiv);
-  hideElement(scoresDiv);
-  showElement(introDiv);
+function Initialize() {
+  HideElement(mainDiv);
+  HideElement(submitScoreDiv);
+  HideElement(scoresDiv);
+  ShowElement(introDiv);
   //
   timeLeft = MAX_TIMER;
   timerEl.textContent = timeLeft;
   //
   if (!isQuizLoaded) {
-    initQuiz();
+    InitalizeQuiz();
   }
 }
 
 // All done
-function processAllDone() {
-  // All done
-  stopTimer();
-  calculateScore();
-  hideElement(mainDiv);
+function ProcessAllDone() {
+  //
+  StopTimer();
+  CalculateScore();
+  HideElement(mainDiv);
   finalScoreEl.textContent =
     actualScore + "% (" + numberOfCorrectAnswers + "/" + MAX_QUESTIONS + ")";
-  showElement(submitScoreDiv);
+  ShowElement(submitScoreDiv);
 }
 
 // Process startBtn logic
-function processStartBtn() {
-  hideElement(introDiv);
-  hideElement(submitScoreDiv);
-  hideElement(scoresDiv);
-  showElement(mainDiv);
-  startTimer();
+function ProcessStartBtn() {
+  HideElement(introDiv);
+  HideElement(submitScoreDiv);
+  HideElement(scoresDiv);
+  ShowElement(mainDiv);
+  StartTimer();
 }
 
 // Process stopBtn logic
-function processStopBtn() {
-  stopTimer();
-  initParameters();
+function ProcessStopBtn() {
+  StopTimer();
+  Initialize();
 }
 
 // Process scoresBtn logic
-function processScoresBtn() {
-  hideElement(introDiv);
-  hideElement(mainDiv);
-  hideElement(submitScoreDiv);
-  loadHighestScore();
-  showElement(scoresDiv);
+function ProcessScoresBtn() {
+  HideElement(introDiv);
+  HideElement(mainDiv);
+  HideElement(submitScoreDiv);
+  LoadHighestScore();
+  ShowElement(scoresDiv);
 }
 
 // Process submitBtn logic
-function processSubmitBtn() {
+function ProcessSubmitBtn() {
   // Submit only if initials/name have been provided
   if (initialsTxt.value.trim()) {
-    submitScore();
-    hideElement(submitScoreDiv);
-    loadHighestScore();
-    showElement(scoresDiv);
+    SubmitScore();
+    HideElement(submitScoreDiv);
+    LoadHighestScore();
+    ShowElement(scoresDiv);
   }
 }
 
 // Process clearScoresBtn logic
-function processClearScoresBtn() {
-  clearHighestScore();
-  loadHighestScore();
+function ProcessClearScoresBtn() {
+  ClearHighestScore();
+  LoadHighestScore();
 }
 
 // Process goBackBtn logic
-function processGoBackBtn() {
-  hideElement(mainDiv);
-  hideElement(submitScoreDiv);
-  hideElement(scoresDiv);
-  showElement(introDiv);
+function ProcessGoBackBtn() {
+  HideElement(mainDiv);
+  HideElement(submitScoreDiv);
+  HideElement(scoresDiv);
+  ShowElement(introDiv);
 }
 
 // Process question/answer logic
-function processQuestionAnswer() {
+function ProcessAnswerSelection() {
   // Check that the clicked element is an answer
   var element = event.target;
 
   if (element.matches(".answer")) {
     // Check answer
-    if (checkAnswer(element)) {
-      showMessage("Correct!");
+    if (CheckAnswer(element)) {
+      ShowMessage("Correct!");
       messageEl.setAttribute("style", "color: green;");
     } else {
-      showMessage("Wrong!");
+      ShowMessage("Wrong!");
       messageEl.setAttribute("style", "color: red;");
     }
 
@@ -487,23 +487,23 @@ function processQuestionAnswer() {
       //
       if (questionNumber < MAX_QUESTIONS) {
         // Load next question
-        loadNextQuestion();
+        LoadNextQuestion();
       } else {
         // All done
-        processAllDone();
+        ProcessAllDone();
       }
     }, 500);
   }
 }
 
 // Event listeners
-startBtn.addEventListener("click", processStartBtn);
-stopBtn.addEventListener("click", processStopBtn);
-scoresBtn.addEventListener("click", processScoresBtn);
-submitBtn.addEventListener("click", processSubmitBtn);
-clearScoresBtn.addEventListener("click", processClearScoresBtn);
-goBackBtn.addEventListener("click", processGoBackBtn);
-questionAnswerEl.addEventListener("click", processQuestionAnswer);
+startBtn.addEventListener("click", ProcessStartBtn);
+stopBtn.addEventListener("click", ProcessStopBtn);
+scoresBtn.addEventListener("click", ProcessScoresBtn);
+submitBtn.addEventListener("click", ProcessSubmitBtn);
+clearScoresBtn.addEventListener("click", ProcessClearScoresBtn);
+goBackBtn.addEventListener("click", ProcessGoBackBtn);
+answerSelectionEl.addEventListener("click", ProcessAnswerSelection);
 
 // Init parameters
-initParameters();
+Initialize();
